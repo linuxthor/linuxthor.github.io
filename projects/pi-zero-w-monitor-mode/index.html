@@ -14,7 +14,8 @@ title: Monitor mode on the Raspberry Pi Zero W
            into (probably) the worlds smallest wifi sniffer!<p>
            <p>Looking at open pull requests in the nexmon project I saw that Github user <a href="https://github.com/NoobieDog/nexmon">
            NoobieDog</a> had already submitted patches that adjust the Makefiles to add support for the ARM6 based Pi and these worked 
-           well with a few small adjustments. The build process was:<p>
+           well with a few small adjustments. <p>
+	   The build process was:
            <pre><code>
 	   # become root
 	   sudo -i
@@ -44,6 +45,7 @@ title: Monitor mode on the Raspberry Pi Zero W
 	   make
 	   make install
            </code></pre>
+	   Unfortunately when I tried to build nexutil (used to switch in and out of monitor mode) I got an error 
 	   <p>
 </div>
 <!-- /.blurb -->
