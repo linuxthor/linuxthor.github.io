@@ -53,20 +53,20 @@ title: Monitor mode on the Raspberry Pi Zero W
            Makefile:7: recipe for target 'libs/armeabi/libnexio.a' failed
            make: *** [libs/armeabi/libnexio.a] Error 127
 	   </code></pre>
-	   suggesting that the Makefile thought this was an Android device..<p> 
-	   I adjusted the Makefile to:
+	   <p>suggesting that the Makefile thought this was an Android device..<p> 
+	   as a workaround I adjusted the Makefile to:
 	   <pre><code>
-	    GIT_VERSION := $(shell git describe --abbrev=4 --dirty --always --tags)
+GIT_VERSION := $(shell git describe --abbrev=4 --dirty --always --tags)
 
-            all: libs/armeabi/libnexio.a
+all: libs/armeabi/libnexio.a
 
-            libs/armeabi/libnexio.a: libnexio.c
-                 gcc -c libnexio.c -o libnexio.o -DBUILD_ON_RPI -DVERSION=\"$GIT_VERSION\" -I../../patches/include
-                 ar rcs libnexio.a libnexio.o
+libs/armeabi/libnexio.a: libnexio.c
+    gcc -c libnexio.c -o libnexio.o -DBUILD_ON_RPI -DVERSION=\"$GIT_VERSION\" -I../../patches/include
+    ar rcs libnexio.a libnexio.o
 
-            clean:
-                 rm -Rf libs
-                 rm -Rf local
+clean:
+    rm -Rf libs
+    rm -Rf local
 	   </code></pre>
 	   at this point everything built successfully. 
 	   <p>
