@@ -7,18 +7,43 @@ title: Monitor mode on the Raspberry Pi Zero W
 	<p>A short writeup of how to get wireless monitor mode working on the Raspberry Pi Zero W</p>
 </div>
 <div class="post">
-	<p>Recently I bought a Rasperry Pi Zero W from <a href="https://shop.pimoroni.com/">Pimoroni</a> and was excited to discover that 
-     the wireless chipset is the same  CYW43438 wireless chip as the Raspberry Pi 3, providing 802.11 wireless and bluetooth 4.0 
-     connectivity. I've previously had success using <a href="https://github.com/seemoo-lab/nexmon">nexmon</a> on the Pi 3 to
-     enable monitor mode with radiotap headers and construct a portable wireless analyser (which you can read about <a href="">here</a>) 
-     so I assumed it should be possible to build the same nexmon software on the smaller Raspberry Pi Zero W and turn the Pi Zero W
-     into (probably) the worlds smallest wifi sniffer!<p>
-     <p>Looking at open pull requests in the nexmon project I saw that Github user <a href="https://github.com/NoobieDog/nexmon">
-     NoobieDog</a> had already submitted patches that adjust the Makefiles to add support for the ARM6 based Pi and these worked 
-     well with a few small adjustments:<p>
-     <pre><code>
-     if foo == bar
-         bar = foo
-     </code></pre>
+	<p>Recently I bought a Rasperry Pi Zero W from <a href="https://shop.pimoroni.com/">Pimoroni</a> and was excited to discover that the wireless chipset is the same  CYW43438 wireless chip as the Raspberry Pi 3, providing 802.11 wireless and bluetooth 4.0 
+           connectivity. I've previously had success using <a href="https://github.com/seemoo-lab/nexmon">nexmon</a> on the Pi 3 to
+           enable monitor mode with radiotap headers and construct a portable wireless analyser (which you can read about <a href="">here</a>) 
+           so I assumed it should be possible to build the same nexmon software on the smaller Raspberry Pi Zero W and turn the Pi Zero W
+           into (probably) the worlds smallest wifi sniffer!<p>
+           <p>Looking at open pull requests in the nexmon project I saw that Github user <a href="https://github.com/NoobieDog/nexmon">
+           NoobieDog</a> had already submitted patches that adjust the Makefiles to add support for the ARM6 based Pi and these worked 
+           well with a few small adjustments. The build process was:<p>
+           <pre><code>
+	   # become root
+	   sudo -i
+	   # ensure packages are up to date
+           apt-get update 
+	   apt-get upgrade
+	   # install prerequisites 
+	   sudo apt install raspberrypi-kernel-headers git libgmp3-dev gawk
+	   # grab a copy of nexmon
+	   git clone https://github.com/NoobieDog/nexmon.git
+	   cd nexmon
+	   # setup env for build
+	   source setup_env.sh
+	   # "Compile some build tools and extract the ucode and flashpatches 
+	   # from the original firmware files"
+	   make
+	   # compile patched firmware
+	   cd patches/bcm43438/7_45_41_26/nexmon/
+	   make
+	   # backup existing firmware then install new 
+	   make backup-firmware
+	   make install-firmware
+	   # build nexutil
+	   cd utilities/libnexio/
+	   make
+	   cd utilities/nexutil/
+	   make
+	   make install
+           </code></pre>
+	   <p>
 </div>
 <!-- /.blurb -->
