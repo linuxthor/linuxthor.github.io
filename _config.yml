@@ -2,9 +2,5 @@ name: linuxthor
 theme: jekyll-theme-hacker
 markdown: kramdown
 permalink: /:year/:month/:day/:title/
-gems:
-    - jekyll-feed
-    - jekyll-paginate
-paginate: 10
-paginate_path: "/:num/"
+
 
