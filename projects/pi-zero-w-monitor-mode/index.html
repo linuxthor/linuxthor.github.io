@@ -18,33 +18,33 @@ title: Monitor mode on the Raspberry Pi Zero W
            well with a few small adjustments. <p>
 	   <p>The build process was:
            <pre><code>
-	   # become root
-	   sudo -i
-	   # ensure packages are up to date
-           apt-get update 
-	   apt-get upgrade
-	   # install prerequisites 
-	   sudo apt install raspberrypi-kernel-headers git libgmp3-dev gawk
-	   # grab a copy of nexmon
-	   git clone https://github.com/NoobieDog/nexmon.git
-	   cd nexmon
-	   # setup env for build
-	   source setup_env.sh
-	   # "Compile some build tools and extract the ucode and flashpatches 
-	   # from the original firmware files"
-	   make
-	   # compile patched firmware
-	   cd patches/bcm43438/7_45_41_26/nexmon/
-	   make
-	   # backup existing firmware then install new 
-	   make backup-firmware
-	   make install-firmware
-	   # build nexutil
-	   cd utilities/libnexio/
-	   make
-	   cd utilities/nexutil/
-	   make
-	   make install
+# become root
+sudo -i
+# ensure packages are up to date
+apt-get update 
+apt-get upgrade
+# install prerequisites 
+sudo apt install raspberrypi-kernel-headers git libgmp3-dev gawk
+# grab a copy of nexmon
+git clone https://github.com/NoobieDog/nexmon.git
+cd nexmon
+# setup env for build
+source setup_env.sh
+# "Compile some build tools and extract the ucode and flashpatches 
+# from the original firmware files"
+make
+# compile patched firmware
+cd patches/bcm43438/7_45_41_26/nexmon/
+make
+# backup existing firmware then install new 
+make backup-firmware
+make install-firmware
+# build nexutil
+cd utilities/libnexio/
+make
+cd utilities/nexutil/
+make
+make install
            </code></pre><p>
 	   Unfortunately when I tried to build libnexio I got an error:
 	   <pre><code>
