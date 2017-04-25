@@ -10,10 +10,10 @@ title: Monitor mode on the Raspberry Pi Zero W
 	<p>Recently I ordered a Rasperry Pi Zero W from <a href="https://shop.pimoroni.com/">Pimoroni</a> and was excited to discover that the 
            wireless chipset is the same CYW43438 found in the Raspberry Pi 3, providing 802.11 wireless and bluetooth 4.0 
            connectivity. I've previously had success using <a href="https://github.com/seemoo-lab/nexmon">nexmon</a> on the Pi 3 to
-           enable monitor mode with radiotap headers and construct a portable wireless analyser (which you can read about <a href="">here</a>) 
-           so I assumed it should be possible to build the same nexmon software on the smaller Raspberry Pi Zero W<p>
+           enable monitor mode with radiotap headers which I used in my portable wireless analyser (which you can read about <a href="">here</a>) 
+           so I hoped it would be possible to build the same nexmon software on the smaller Raspberry Pi Zero W<p>
            <p>Looking at open pull requests in the nexmon project I found that Github user <a href="https://github.com/NoobieDog/nexmon">
-           NoobieDog</a> had already submitted patches that adjust the Makefiles to add support for the ARM6 based Pi and these worked 
+           NoobieDog</a> had already submitted patches that adjust the Makefiles to add support for the ARMv6 based Pi and these worked 
            well with a few small adjustments. <p>
 	   <p>I built directly on the Pi Zero W using the following process:
            <pre><code>
@@ -110,6 +110,6 @@ ifconfig wlan0 up
            </code></pre>
 	   <p>As it isn't possible to send and receive using the wifi while in monitor mode I've been using an ersatz shell over bluetooth
            I wrote recently which, althought limited in functionality, enables the interface to be taken in and out of monitor mode which
-	   is good enough to put the interface back in a state where I can SSH in.<p>
+	   is good enough to put things back into a state where I can SSH in.<p>
 </div>
 <!-- /.blurb -->
