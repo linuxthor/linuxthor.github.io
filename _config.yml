@@ -1,5 +1,5 @@
-theme: jekyll-theme-hacker
 name: linuxthor
+theme: jekyll-theme-hacker
 markdown: kramdown
 permalink: /:year/:month/:day/:title/
 gems:
@@ -7,6 +7,4 @@ gems:
     - jekyll-paginate
 paginate: 10
 paginate_path: "/:num/"
-kramdown:
-    input: GFM
-    syntax_highlighter: rouge
+
