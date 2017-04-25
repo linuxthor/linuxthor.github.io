@@ -1,1 +1,118 @@
+---
+layout: default
+title: Simple Bind Shell Over Bluetooth 
+---
+<div class="blurb">
+	<h1>Simple Bind Shell Over Bluetooth</h1>
+	<p>A useful alternative way of running shell commands on a system.</p>
+</div>
+<div class="post">
+  <p>Recently when working with the <a href="../pi-zero-w-monitor-mode/">Raspberry Pi Zero W</a> I needed to 
+     take the wireless interface up and down to enable monitor mode.. Due to it's small size the Pi Zero W 
+     doesn't have ethernet and it wasn't convenient to remain hooked up to a monitor so I set out to try and 
+     create a basic shell over bluetooth.<p>
+  <p>I've previously worked with the Bluez library on Linux and consulting the documentation there was an example
+    in the RFCOMM section that showed how to send and receive data and immediately it looked very familiar<p>
+  <pre><code>
+// allocate socket
+s = socket(AF_BLUETOOTH, SOCK_STREAM, BTPROTO_RFCOMM);
 
+// bind socket to port 1 of the first available 
+// local bluetooth adapter
+loc_addr.rc_family = AF_BLUETOOTH;
+loc_addr.rc_bdaddr = *BDADDR_ANY;
+loc_addr.rc_channel = (uint8_t) 1;
+bind(s, (struct sockaddr *)&loc_addr, sizeof(loc_addr));
+
+// put socket into listening mode
+listen(s, 1);
+
+// accept one connection
+client = accept(s, (struct sockaddr *)&rem_addr, &opt);
+  </code></pre>
+ <p>The syscalls (socket, bind, listen, accept) will be familiar to anyone who has written a network service of the
+   more conventional kind. This allows us to adapt a simple 'bind shell' (fork, redirect stdin|stdout|stderr, and execute
+   /bin/sh) into a bluetooth shell<p>
+  <p> WARNING! : There is no security built into this shell<p>
+  <pre>
+  <code>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <signal.h>
+#include <sys/socket.h>
+#include <bluetooth/bluetooth.h>
+#include <bluetooth/rfcomm.h>
+
+int main(int ac , char *av[])
+{
+   int socket_desc , client_sock , c , channel;
+   struct sockaddr_rc loc_addr = { 0 }, rem_addr = { 0 };
+   char client_addr[24];
+   char *src;
+   pid_t childp;
+
+   if(ac  < 3)
+   {
+       printf("[%s] <bd_addr> <channel>\n",av[0]);
+       exit(1);
+   }
+
+   // avoid zombies
+   if (signal(SIGCHLD, SIG_IGN) == SIG_ERR)
+   {
+      perror(0);
+      exit(1);
+   }
+
+   src = av[1];
+   channel = atoi(av[2]);
+      socket_desc = socket(AF_BLUETOOTH , SOCK_STREAM , BTPROTO_RFCOMM);
+   if (socket_desc == -1)
+   {
+       printf("Could not create socket\n");
+       exit(1);
+   }
+
+   loc_addr.rc_family = AF_BLUETOOTH;
+   str2ba(src, &loc_addr.rc_bdaddr);
+   loc_addr.rc_channel = (uint8_t) channel;
+
+   if (bind(socket_desc,(struct sockaddr *)&loc_addr , sizeof(loc_addr)) < 0)
+   {
+       printf("Bind failed. Error");
+       return 1;
+   }
+
+   listen(socket_desc , 3);
+   printf("[+] Waiting for incoming connections...\n");
+
+   c = sizeof(struct sockaddr_rc);
+   while(1)
+   {
+        client_sock = accept(socket_desc, (struct sockaddr *)&rem_addr, (socklen_t*)&c);
+        ba2str( &rem_addr.rc_bdaddr, client_addr);
+        printf("[+] Accepted connection from %s\n",client_addr);
+
+        childp = fork();
+        if(childp == 0)
+        {
+            dup2(client_sock, 0);
+            dup2(client_sock, 1);
+            dup2(client_sock, 2);
+            execve("/bin/bash", NULL, NULL);
+        }
+   }
+   return 0;
+}
+</code>
+</pre>
+<p>In order to use the shell the bluetooth interface must be in inquiry scan mode (this doesn't mean it will be 'discoverable'
+   in the traditional sense, that requires paging scan to be set, rather it means that the server will respond when directly 
+   queried by the client)<p>
+ <pre>
+ <code>
+ sudo hciconfig hci0 iscan
+ </code>
+ </pre>
