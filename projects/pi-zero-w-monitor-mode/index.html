@@ -13,9 +13,12 @@ title: Monitor mode on the Raspberry Pi Zero W
            connectivity. I've previously had success using <a href="https://github.com/seemoo-lab/nexmon">nexmon</a> on the Pi 3 to
            enable monitor mode with radiotap headers which I used in my portable wireless analyser (which you can read about <a href="">here</a>) 
            so I hoped it would be possible to build the same nexmon software on the smaller Raspberry Pi Zero W<p>
-           <p>Looking at open pull requests in the nexmon project I found that Github user <a href="https://github.com/NoobieDog/nexmon">
-           NoobieDog</a> had already submitted patches that adjust the Makefiles to add support for the ARMv6 based Pi and these worked 
-           well with a few small adjustments. <p>
+	   <p>The Pi Zero W is very small and frugal with power so it makes an excellent candidate to be deployed in the field, 
+           perhaps powered by batteries or connected to a convenient USB power source..<p>
+           <p>Building should be simply a case of changing some references to ARMv7 to ARMv6 but looking at open pull requests in the nexmon project 
+           I found that Github user <a href="https://github.com/NoobieDog/nexmon">NoobieDog</a> had already done some of that work and submitted 
+	   patches that adjust the Makefiles to add support for the ARMv6 based Pi Zero W and fortunately these worked 
+           well with only a few minor adjustments. <p>
 	   <p>I built directly on the Pi Zero W using the following process:
            <pre><code>
 # become root
