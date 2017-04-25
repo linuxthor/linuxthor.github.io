@@ -1,5 +1,4 @@
 name: linuxthor
-theme: jekyll-theme-hacker
 markdown: kramdown
 permalink: /:year/:month/:day/:title/
 
