@@ -48,10 +48,10 @@ make install
            </code></pre><p>
 	   Unfortunately when I tried to build libnexio I got an error:
 	   <pre><code>
-           /ndk-build NDK_APPLICATION_MK=`pwd`/Application.mk NDK_APP_OUT=. TARGET_PLATFORM=android-21
-           /bin/sh: 1: /ndk-build: not found
-           Makefile:7: recipe for target 'libs/armeabi/libnexio.a' failed
-           make: *** [libs/armeabi/libnexio.a] Error 127
+/ndk-build NDK_APPLICATION_MK=`pwd`/Application.mk NDK_APP_OUT=. TARGET_PLATFORM=android-21
+/bin/sh: 1: /ndk-build: not found
+Makefile:7: recipe for target 'libs/armeabi/libnexio.a' failed
+make: *** [libs/armeabi/libnexio.a] Error 127
 	   </code></pre>
 	   <p>suggesting that the Makefile thought this was an Android device..<p> 
 	   as a workaround I adjusted the Makefile to:
