@@ -30,20 +30,20 @@ listen(s, 1);
 // accept one connection
 client = accept(s, (struct sockaddr *)&rem_addr, &opt);
   </code></pre>
- <p>The syscalls (socket, bind, listen, accept) will be familiar to anyone who has written a network service of the
-   more conventional kind. This allows us to adapt a simple 'bind shell' (fork, redirect stdin|stdout|stderr, and execute
-   /bin/sh) into a bluetooth shell<p>
+ <p>The syscalls (socket, bind, listen, accept) will be familiar to anyone who has written a daemon of any kind. 
+    This allows us to adapt a simple 'bind shell' (fork, redirect stdin|stdout|stderr, and execute /bin/sh) into  
+    a bluetooth shell<p>
   <p> WARNING! : There is no security built into this shell<p>
   <pre>
   <code>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <signal.h>
-#include <sys/socket.h>
-#include <bluetooth/bluetooth.h>
-#include <bluetooth/rfcomm.h>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;string.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;sys/socket.h&gt;
+#include &lt;bluetooth/bluetooth.h&gt;
+#include &lt;bluetooth/rfcomm.h&gt;
 
 int main(int ac , char *av[])
 {
@@ -53,9 +53,9 @@ int main(int ac , char *av[])
    char *src;
    pid_t childp;
 
-   if(ac  < 3)
+   if(ac  &lt; 3)
    {
-       printf("[%s] <bd_addr> <channel>\n",av[0]);
+       printf("[%s] &lt;bd_addr&gt; &lt;channel&gt;\n",av[0]);
        exit(1);
    }
 
@@ -76,10 +76,10 @@ int main(int ac , char *av[])
    }
 
    loc_addr.rc_family = AF_BLUETOOTH;
-   str2ba(src, &loc_addr.rc_bdaddr);
+   str2ba(src, &amp;loc_addr.rc_bdaddr);
    loc_addr.rc_channel = (uint8_t) channel;
 
-   if (bind(socket_desc,(struct sockaddr *)&loc_addr , sizeof(loc_addr)) < 0)
+   if (bind(socket_desc,(struct sockaddr *)&amp;loc_addr , sizeof(loc_addr)) &lt; 0)
    {
        printf("Bind failed. Error");
        return 1;
@@ -91,8 +91,8 @@ int main(int ac , char *av[])
    c = sizeof(struct sockaddr_rc);
    while(1)
    {
-        client_sock = accept(socket_desc, (struct sockaddr *)&rem_addr, (socklen_t*)&c);
-        ba2str( &rem_addr.rc_bdaddr, client_addr);
+        client_sock = accept(socket_desc, (struct sockaddr *)&amp;rem_addr, (socklen_t*)&amp;c);
+        ba2str( &amp;rem_addr.rc_bdaddr, client_addr);
         printf("[+] Accepted connection from %s\n",client_addr);
 
         childp = fork();
@@ -101,7 +101,7 @@ int main(int ac , char *av[])
             dup2(client_sock, 0);
             dup2(client_sock, 1);
             dup2(client_sock, 2);
-            execve("/bin/bash", NULL, NULL);
+            execve("/bin/sh", NULL, NULL);
         }
    }
    return 0;
@@ -114,5 +114,14 @@ int main(int ac , char *av[])
  <pre>
  <code>
  sudo hciconfig hci0 iscan
+ # then start the server
+ ./server 01:02:03:04:05:06 22
  </code>
  </pre>
+ <p>On the other computer we can use a simple client such as this:<p>
+ <pre>
+ <code>
+ 
+ </code>
+ </pre>
+ 
