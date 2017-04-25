@@ -16,7 +16,7 @@ title: Monitor mode on the Raspberry Pi Zero W
            <p>Looking at open pull requests in the nexmon project I found that Github user <a href="https://github.com/NoobieDog/nexmon">
            NoobieDog</a> had already submitted patches that adjust the Makefiles to add support for the ARM6 based Pi and these worked 
            well with a few small adjustments. <p>
-	   The build process was:
+	   <p>The build process was:
            <pre><code>
 	   # become root
 	   sudo -i
@@ -45,7 +45,7 @@ title: Monitor mode on the Raspberry Pi Zero W
 	   cd utilities/nexutil/
 	   make
 	   make install
-           </code></pre>
+           </code></pre><p>
 	   Unfortunately when I tried to build libnexio I got an error:
 	   <pre><code>
            /ndk-build NDK_APPLICATION_MK=`pwd`/Application.mk NDK_APP_OUT=. TARGET_PLATFORM=android-21
@@ -67,7 +67,7 @@ libs/armeabi/libnexio.a: libnexio.c
 clean:
     rm -Rf libs
     rm -Rf local
-	   </code></pre>
+	   </code></pre><p>
 	   at this point everything built successfully. 
 	   <p>
 </div>
