@@ -68,7 +68,7 @@ clean:
     rm -Rf local
 	   </code></pre><p>
 	   at this point everything built successfully and the nexmon driver was loaded!  
-	   <p>Nexmon is controlled using the nexutil command, monitor mode with radiotap headers, which I needed to use, can be
+	   <p>Nexmon is controlled using the nexutil command. Monitor mode with radiotap headers, which I needed to use, can be
 	   activated with 'nexutil -m2' and deactivated with 'nexutil -m0' which puts the interface back into 'managed' mode
 	   where it can send and receive as normal.<p>
 	   <pre><code>
@@ -108,6 +108,8 @@ insmod /home/pi/nexmon/patches/bcm43438/7_45_41_26/nexmon/brcmfmac/brcmfmac.ko
 nexutil -m2
 ifconfig wlan0 up
            </code></pre>
-	    
+	   <p>As it isn't possible to send and receive using the wifi while in monitor mode I've been using an ersatz shell over bluetooth
+           I wrote recently which, althought limited in functionality, enables the interface to be taken in and out of monitor mode which
+	   is good enough to put the interface back in a state where I can SSH in.<p>
 </div>
 <!-- /.blurb -->
