@@ -4,21 +4,23 @@ title: Monitor mode on the Raspberry Pi Zero W
 ---
 <div class="blurb">
 	<h1>Pi Zero W Monitor Mode</h1>
-	<p>A short writeup of how to get wireless monitor mode working on the Raspberry Pi Zero W</p>
+	<p>How to get wireless monitor mode working on the Raspberry Pi Zero W</p>
 </div>
 <div class="post">
 	<img src="TB8ClOnX0c1vQlnE-pic-jpg" alt="Raspberry Pi Zero W" style="width:420px;height:228px;">
-	<p>Recently I ordered a Raspberry Pi Zero W from <a href="https://shop.pimoroni.com/">Pimoroni</a> and was excited to discover that the 
+	<p>Recently I ordered a Raspberry Pi Zero W from <a href="https://shop.pimoroni.com/">Pimoroni</a> and I was excited to discover that the 
            wireless chipset is the same CYW43438 found in the Raspberry Pi 3, providing 802.11 wireless and bluetooth 4.0 
            connectivity. I've previously had success using <a href="https://github.com/seemoo-lab/nexmon">nexmon</a> on the Pi 3 to
            enable monitor mode with radiotap headers which I used in my portable wireless analyser (which you can read about <a href="">here</a>) 
-           so I hoped it would be possible to build the same nexmon software on the smaller Raspberry Pi Zero W<p>
+           so I hoped it would be possible to use the same nexmon software on the smaller Raspberry Pi Zero W<p>
 	   <p>The Pi Zero W is physically very small and extremely frugal with power so it makes an excellent candidate to be deployed in a variety 
-	   of locations, perhaps powered by batteries or connected to any convenient USB power source..<p>
-           <p>Building nexmon should simply be a case of changing some references to ARMv7 to ARMv6 and looking at open pull requests in the project 
+	   of locations, perhaps powered by batteries or connected to any nearby USB power source.. At a price that equates to around 2 pints of beer
+	   you could afford to leave these around as supercharged 'wifi throwies' or other similar use cases. The ability to do wifi packet capture and
+	   injection simply hasn't been available at such a cost effective price or such a small form factor until now!	   
+           <p>I thought building nexmon should simply be a case of changing some references to ARMv7 to ARMv6 and looking at open pull requests in the project 
            I found that Github user <a href="https://github.com/NoobieDog/nexmon">NoobieDog</a> had already done some of that work and submitted 
-	   patches that adjust the Makefiles to add support for the ARMv6 based Pi Zero W and fortunately these worked well with only a few minor 
-           adjustments required. <p>
+	   patches that adjust the Makefiles to add support for the ARMv6 based Pi Zero W and happily these worked well with only a few minor 
+           tweaks required. <p>
 	   <p>I built directly on the Pi Zero W using the following process:
            <pre><code>
 # become root
@@ -56,8 +58,8 @@ make install
 Makefile:7: recipe for target 'libs/armeabi/libnexio.a' failed
 make: *** [libs/armeabi/libnexio.a] Error 127
 	   </code></pre>
-	   <p>suggesting that the Makefile thought this was an Android device..<p> 
-	   as a workaround I adjusted the Makefile to:
+	   <p>..Suggesting that the Makefile thought this was an Android device..<p> 
+	   as a workaround I adjusted the Makefile to this:
 	   <pre><code>
 GIT_VERSION := $(shell git describe --abbrev=4 --dirty --always --tags)
 
@@ -71,7 +73,7 @@ clean:
     rm -Rf libs
     rm -Rf local
 	   </code></pre><p>
-	   at this point everything built successfully and the nexmon driver was loaded!  
+	   At this point everything built successfully and the nexmon driver was loaded!  
 	   <p>Nexmon is controlled using the nexutil command. Monitor mode with radiotap headers, which I needed to use, can be
 	   activated with 'nexutil -m2' and deactivated with 'nexutil -m0' which puts the interface back into 'managed' mode
 	   where it can send and receive as normal.<p>
