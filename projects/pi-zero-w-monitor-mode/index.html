@@ -22,6 +22,7 @@ title: Monitor mode on the Raspberry Pi Zero W
            I found that Github user <a href="https://github.com/NoobieDog/nexmon">NoobieDog</a> had already done some of that work and submitted 
 	   patches that adjust the Makefiles to add support for the ARMv6 based Pi Zero W and happily these worked well with only a few minor 
            tweaks required. <p>
+	<h2>" let go before it's too late or hang on and keep getting higher, posing the question: how long can you keep a grip on the rope?"</h2>
 	   <p>I built directly on the Pi Zero W using the following process:
            <pre><code>
 # become root
@@ -73,7 +74,9 @@ libs/armeabi/libnexio.a: libnexio.c
 clean:
     rm -Rf libs
     rm -Rf local
-	   </code></pre><p>
+	   </code></pre>
+	   <h2>"They're selling hippie wigs in Woolworth's, man"</h2>
+	   <p>
 	   At this point everything built successfully and the nexmon driver was loaded!  
 	   <p>Nexmon is controlled using the nexutil command. Monitor mode with radiotap headers, which I needed to use, can be
 	   activated with 'nexutil -m2' and deactivated with 'nexutil -m0' which puts the interface back into 'managed' mode
@@ -105,6 +108,7 @@ rmmod brcmfmac
 insmod /home/pi/nexmon/patches/bcm43438/7_45_41_26/nexmon/brcmfmac/brcmfmac.ko
 ifconfig wlan0 up
 	   </code></pre>
+	<h2>" The greatest decade in the history of mankind is over."</h2>
 	   <p>Unfortunately the usual commands to change channel wouldn't work with the nexmon driver but I found a workaround 
            by loading the original driver, switching to ad-hoc mode and setting the channel there which persisted when the nexmon
            driver was reloaded:<p>
@@ -120,6 +124,7 @@ nexutil -m2
 ifconfig wlan0 up
            </code></pre>
 	   <img src="XNCi71KTOnp5KdgX-pic-jpg" alt="Sketchy Bluetooth Shell" style="width:420px;height:228px;">
+	<h2>"As Presuming Ed here has so consistently pointed out, we have failed to paint it black."</h2>
 	   <p>As it isn't possible to use the wifi normally while in monitor mode I've been using an ersatz <a href="../bluetooth-shell/"> 
 	   shell over bluetooth</a> I hacked together recently which, althought limited in functionality, enables the interface to be taken in and 
 	   out of monitor mode which is good enough to get things back into a state where I can SSH in.<p>
