@@ -11,12 +11,10 @@ title: Monitor mode on the Raspberry Pi Zero W
 	<img src="TB8ClOnX0c1vQlnE-pic-jpg" alt="Raspberry Pi Zero W" style="width:420px;height:228px;">
 	<p>Recently I ordered a Raspberry Pi Zero W from <a href="https://shop.pimoroni.com/">Pimoroni</a> and was pleased to discover that the 
            wireless chipset is the same CYW43438 found in the Raspberry Pi 3, providing 802.11 wireless and bluetooth 4.0 
-           connectivity. I've previously had success using <a href="https://github.com/seemoo-lab/nexmon">nexmon</a> on the Pi 3 to
-           enable monitor mode with radiotap headers which I used in my portable wireless analyser (which you can read about <a href="">here</a>) 
-           so I hoped it would be possible to use the same nexmon software on the smaller Raspberry Pi Zero W<p>
+           connectivity. I've previously had success using <a href="https://github.com/seemoo-lab/nexmon">nexmon</a> on the Pi 3
+           so I hoped it would work just as well on the smaller Raspberry Pi Zero W<p>
 	   <p>The Pi Zero W is physically very small and extremely frugal with power so it makes an excellent candidate to deploy in a variety 
-	   of locations, perhaps powered by batteries or connected to a nearby USB power source.. Some people sniff while others inject but 
-	   whatever your poison the Pi Zero W has it covered!   
+	   of locations, perhaps powered by batteries or connected to a nearby USB power source.. 
   	   <h2><u>" let go before it's too late or hang on and keep getting higher, posing the question: how long can you keep a grip on the rope?"</u></h2>
 	   <p>I thought building nexmon should simply be a case of changing some references to ARMv7 to ARMv6 and looking at open pull requests in the project 
            I found that Github user <a href="https://github.com/NoobieDog/nexmon">NoobieDog</a> had already done some of that work and submitted 
