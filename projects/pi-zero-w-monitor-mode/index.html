@@ -103,7 +103,7 @@ ifconfig wlan0 up
 # load nexmon driver
 ifconfig wlan0 down
 rmmod brcmfmac
-insmod /home/pi/nexmon/patches/bcm43438/7_45_41_26/nexmon/brcmfmac/brcmfmac.ko
+insmod /root/nexmon/patches/bcm43438/7_45_41_26/nexmon/brcmfmac/brcmfmac.ko
 ifconfig wlan0 up
 	   </code></pre>
 	<h2><u>"The greatest decade in the history of mankind is over."</u></h2>
@@ -117,7 +117,7 @@ modprobe brcmfmac
 iwconfig wlan0 mode ad-hoc
 iwconfig wlan0 channel 3
 rmmod brcmfmac
-insmod /home/pi/nexmon/patches/bcm43438/7_45_41_26/nexmon/brcmfmac/brcmfmac.ko
+insmod /root/nexmon/patches/bcm43438/7_45_41_26/nexmon/brcmfmac/brcmfmac.ko
 nexutil -m2
 ifconfig wlan0 up
            </code></pre>
